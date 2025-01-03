@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.27](https://github.com/appium/appium-plugins/compare/@appium/universal-xml-plugin@1.0.26...@appium/universal-xml-plugin@1.0.27) (2025-01-02)
+
+
+### Bug Fixes
+
+* Reduce linter warnings ([#20860](https://github.com/appium/appium-plugins/issues/20860)) ([65658cc](https://github.com/appium/appium-plugins/commit/65658ccbdde9144c45cb5aad6a9089a5d6f3a0a3))
+* **universal-xml-plugin:** update dependency fast-xml-parser to v4.5.1 ([#20841](https://github.com/appium/appium-plugins/issues/20841)) ([aaef1d6](https://github.com/appium/appium-plugins/commit/aaef1d696290b035802b436d4f0fe91d79e6dc8a))
+
+
+
+## [1.0.26](https://github.com/appium/appium-plugins/compare/@appium/universal-xml-plugin@1.0.25...@appium/universal-xml-plugin@1.0.26) (2024-12-05)
+
+
+### Bug Fixes
+
+* **universal-xml-plugin:** update dependency @xmldom/xmldom to v0.9.6 ([#20819](https://github.com/appium/appium-plugins/issues/20819)) ([228b091](https://github.com/appium/appium-plugins/commit/228b091edc6f16dfc081642bfc313b66d07bd370))
+
+
+
 ## [1.0.25](https://github.com/appium/appium-plugins/compare/@appium/universal-xml-plugin@1.0.24...@appium/universal-xml-plugin@1.0.25) (2024-11-29)
 
 

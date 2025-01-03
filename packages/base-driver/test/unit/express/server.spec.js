@@ -2,6 +2,7 @@
 
 import {server, routeConfiguringFunction} from '../../../lib';
 import {configureServer, normalizeBasePath} from '../../../lib/express/server';
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 import {getTestPort} from '@appium/driver-test-support';
 
@@ -31,6 +32,8 @@ describe('server configuration', function () {
     const chaiAsPromised = await import('chai-as-promised');
     chai.use(chaiAsPromised.default);
     should = chai.should();
+
+    port = await getTestPort(true);
   });
 
   function fakeApp() {
@@ -49,10 +52,6 @@ describe('server configuration', function () {
     };
     return app;
   }
-
-  before(async function () {
-    port = await getTestPort(true);
-  });
 
   beforeEach(function () {
     sandbox = createSandbox();

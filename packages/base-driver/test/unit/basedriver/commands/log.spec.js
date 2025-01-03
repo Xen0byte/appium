@@ -1,7 +1,8 @@
 // @ts-check
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 import _ from 'lodash';
-import BaseDriver from '../../../../lib';
+import {BaseDriver} from '../../../../lib';
 
 const FIRST_LOGS = ['first', 'logs'];
 const SECOND_LOGS = ['second', 'logs'];

@@ -1,5 +1,6 @@
 import {fs, system, tempDir} from '../../lib';
 import path from 'path';
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 import {exec} from 'teen_process';
 import _ from 'lodash';
@@ -74,8 +75,6 @@ describe('fs', function () {
       await fs.copyFile(existingPath, newPath);
       (await fs.readFile(newPath, 'utf8')).should.contain('readFile');
     });
-
-    it('should be able to copy a directory');
 
     it('should throw an error if the source does not exist', async function () {
       await fs.copyFile('/sdfsdfsdfsdf', '/tmp/bla').should.eventually.be.rejected;

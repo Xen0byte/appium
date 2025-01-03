@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/appium/appium/compare/@appium/support@6.0.0...@appium/support@6.0.1) (2025-01-02)
+
+
+### Bug Fixes
+
+* Reduce linter warnings ([#20860](https://github.com/appium/appium/issues/20860)) ([65658cc](https://github.com/appium/appium/commit/65658ccbdde9144c45cb5aad6a9089a5d6f3a0a3))
+* **types:** update dependency type-fest to v4 ([#20838](https://github.com/appium/appium/issues/20838)) ([a5897dd](https://github.com/appium/appium/commit/a5897dd25a277a42b0c650a52274ba2c891ac3b0))
+* **types:** update dependency type-fest to v4 ([#20843](https://github.com/appium/appium/issues/20843)) ([7abecad](https://github.com/appium/appium/commit/7abecaddd3ed64c7be321650b2a17990e74a7222))
+* **types:** update dependency type-fest to v4.31.0 ([#20857](https://github.com/appium/appium/issues/20857)) ([24abb38](https://github.com/appium/appium/commit/24abb385e54f57457c4fb3f2b654cb63645e7ccd))
+
+
+
+## [6.0.0](https://github.com/appium/appium/compare/@appium/support@5.1.8...@appium/support@6.0.0) (2024-12-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **support:** revert #20797 which was used for a backward compatibility
+
+### Bug Fixes
+
+* **support:** update dependency axios to v1.7.9 ([#20811](https://github.com/appium/appium/issues/20811)) ([69f100a](https://github.com/appium/appium/commit/69f100ad3e12030708dee4b8a74005dd41976e37))
+* **support:** update dependency teen_process to v2.2.2 ([#20808](https://github.com/appium/appium/issues/20808)) ([c91683f](https://github.com/appium/appium/commit/c91683f50feea937ff8568eab6366465a6cf9a3e))
+* **types:** update dependency type-fest to v4.30.0 ([#20802](https://github.com/appium/appium/issues/20802)) ([8590432](https://github.com/appium/appium/commit/8590432955eb7663e35847db541b9ead3f845a36))
+
+
+### Miscellaneous Chores
+
+* **support:** revert [#20797](https://github.com/appium/appium/issues/20797) as a backward compatibility ([#20801](https://github.com/appium/appium/issues/20801)) ([16c3ae2](https://github.com/appium/appium/commit/16c3ae25eace19bf63ded56f5196865cfa6eca51))
+
+
+
 ## [5.1.8](https://github.com/appium/appium/compare/@appium/support@5.1.7...@appium/support@5.1.8) (2024-12-02)
 
 

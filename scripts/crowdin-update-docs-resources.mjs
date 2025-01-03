@@ -3,18 +3,20 @@ import crypto from 'node:crypto';
 import {
   log,
   walk,
-  ORIGINAL_LANGUAGE,
+  DEFAULT_LANGUAGE,
   performApiRequest,
   RESOURCES_ROOT,
   DOCUMENTS_EXT,
-  MKDOCS_YAML,
+  ORIGINAL_MKDOCS_CONFIG,
+  CROWIN_MKDOCS_CONFIG,
+  MKDOCS_CONTENT_TYPE,
 } from './crowdin-common.mjs';
 import {fs} from '@appium/support';
 
-const LANGUAGE_ROOT = path.resolve(RESOURCES_ROOT, ORIGINAL_LANGUAGE);
+const LANGUAGE_ROOT = path.resolve(RESOURCES_ROOT, DEFAULT_LANGUAGE);
+// Max supported value is 500
 const MAX_ITEMS_PER_PAGE = 300;
 const DOCUMENT_CONTENT_TYPE = 'text/markdown';
-const MKDOCS_CONTENT_TYPE = 'application/yaml';
 
 /**
  *
@@ -31,9 +33,11 @@ function toHash(str) {
  * @returns {string}
  */
 function toCrowdinPath(fullPath) {
+  const fileName = path.basename(fullPath);
+  const isMkDocsConfig = fileName === ORIGINAL_MKDOCS_CONFIG(DEFAULT_LANGUAGE);
   let result = `/${path.relative(LANGUAGE_ROOT, fullPath)}`;
-  if (result.includes('..')) {
-    result = `/${path.basename(fullPath)}`;
+  if (isMkDocsConfig || result.includes('..')) {
+    return `/${isMkDocsConfig ? CROWIN_MKDOCS_CONFIG : fileName}`;
   }
   return result;
 }
@@ -219,8 +223,13 @@ async function ensureFileStructure(storageMapping, directoriesMapping, existingF
         const fileId = await addFile(encodeURIComponent(path.basename(pathInCrowdin)), storageId, parentFolderId);
         result[fullPath] = fileId;
       } catch (e) {
-        log.info(`Cannot add '${pathInCrowdin}'. Skipping it`);
-        log.warn(e);
+        log.warn(`Cannot add '${pathInCrowdin}'. Skipping it`);
+        if (e.response) {
+          log.info(`Crowdin API status: ${e.response.status}`);
+          log.info(`Crowdin API error: ${JSON.stringify(e.response.data, null, 2)}`);
+        } else {
+          log.info(e);
+        }
         continue;
       }
     }
@@ -295,12 +304,12 @@ async function updateDocuments() {
  * @returns {Promise<void>}
  */
 async function updateMkDocsConfig() {
-  const configFileName = MKDOCS_YAML(ORIGINAL_LANGUAGE);
+  const configFileName = ORIGINAL_MKDOCS_CONFIG(DEFAULT_LANGUAGE);
   const matchedFilePath = path.join(RESOURCES_ROOT, configFileName);
   if (!await fs.exists(matchedFilePath)) {
     throw new Error(`Did not find the MkDocs config at '${matchedFilePath}'`);
   }
-  const storageData = await addStorage(encodeURIComponent(configFileName), matchedFilePath, MKDOCS_CONTENT_TYPE);
+  const storageData = await addStorage(encodeURIComponent(CROWIN_MKDOCS_CONFIG), matchedFilePath, MKDOCS_CONTENT_TYPE);
   const storageMapping = {[matchedFilePath]: storageData.id};
   const existingFilesData = await listFiles();
   const filesMapping = await ensureFileStructure(storageMapping, {}, existingFilesData);

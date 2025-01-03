@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable require-await */
-
 import {logger} from '@appium/support';
 import type {
   AppiumLogger,
@@ -14,7 +11,8 @@ import type {
   Protocol,
   RouteMatcher,
   StringRecord,
-  BidiMethodDef,
+  BidiModuleMap,
+  BiDiResultData,
 } from '@appium/types';
 import AsyncLock from 'async-lock';
 import _ from 'lodash';
@@ -26,8 +24,8 @@ import {
   MAX_LOG_BODY_LENGTH,
 } from '../constants';
 import {errors} from '../protocol';
-import DeviceSettings from './device-settings';
-import helpers, {BASEDRIVER_VER} from './helpers';
+import {DeviceSettings} from './device-settings';
+import * as helpers from './helpers';
 import {BIDI_COMMANDS} from '../protocol/bidi-commands';
 
 const NEW_COMMAND_TIMEOUT_MS = 60 * 1000;
@@ -44,7 +42,7 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
    * Make the basedriver version available so for any driver which inherits from this package, we
    * know which version of basedriver it inherited from
    */
-  static baseVersion = BASEDRIVER_VER;
+  static baseVersion = helpers.BASEDRIVER_VER;
 
   sessionId: string | null;
 
@@ -111,6 +109,8 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
   bidiEventSubs: Record<string, string[]>;
 
   doesSupportBidi: boolean;
+
+  bidiCommands: BidiModuleMap = BIDI_COMMANDS as BidiModuleMap;
 
   constructor(opts: InitialOpts = <InitialOpts>{}, shouldValidateCaps = true) {
     this._log = logger.getLogger(helpers.generateDriverLogPrefix(this as Core<C>));
@@ -239,6 +239,7 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
    * method required by MJSONWP in order to determine if the command should
    * be proxied directly to the driver
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   driverForSession(sessionId: string): Core<Constraints> | null {
     return this as Core<Constraints>;
   }
@@ -272,11 +273,13 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
     const parseFullName = (fullName: string) => {
       const separatorPos = fullName.indexOf(FEATURE_NAME_SEPARATOR);
       if (separatorPos < 0) {
-        // This should not happen as we preprocess corresponding server arguments in advance
-        throw new Error(
-          `The full feature name must include both the driver name/wildcard and the feature ` +
-          `name split by a colon, got '${fullName}' instead`
-        );
+        // TODO: This is for the backward compatibility with Appium 2.
+        // TODO: We should bring back to raise an Error below for Appium 3.
+        // throw new Error(
+        //   `The full feature name must include both the driver name/wildcard and the feature ` +
+        //   `name split by a colon, got '${fullName}' instead`
+        // );
+        return [ALL_DRIVERS_MATCH, fullName];
       }
       return [
         _.toLower(fullName.substring(0, separatorPos)),
@@ -362,14 +365,17 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   proxyActive(sessionId: string): boolean {
     return false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getProxyAvoidList(sessionId: string): RouteMatcher[] {
     return [];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canProxy(sessionId: string): boolean {
     return false;
   }
@@ -387,6 +393,7 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
    *
    * @returns whether the route should be avoided
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   proxyRouteIsAvoided(sessionId: string, method: HTTPMethod, url: string, body?: any): boolean {
     for (const avoidSchema of this.getProxyAvoidList(sessionId)) {
       if (!_.isArray(avoidSchema) || avoidSchema.length !== 2) {
@@ -426,7 +433,18 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
     }
   }
 
-  async executeBidiCommand(bidiCmd: string, bidiParams: StringRecord): Promise<any> {
+  updateBidiCommands(cmds: BidiModuleMap): void {
+    const overlappingKeys = _.intersection(Object.keys(cmds), Object.keys(this.bidiCommands));
+    if (overlappingKeys.length) {
+      this.log.warn(`Overwriting existing bidi modules: ${JSON.stringify(overlappingKeys)}. This may not be intended!`);
+    }
+    this.bidiCommands = {
+      ...this.bidiCommands,
+      ...cmds,
+    };
+  }
+
+  async executeBidiCommand(bidiCmd: string, bidiParams: StringRecord): Promise<BiDiResultData> {
     const [moduleName, methodName] = bidiCmd.split('.');
 
     // if we don't get a valid format for bidi command name, reject
@@ -438,12 +456,13 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
       );
     }
 
-    // if the command module isn't part of our spec, reject
-    if (!BIDI_COMMANDS[moduleName]) {
+
+    // if the command module or method isn't part of our spec, reject
+    if (!this.bidiCommands[moduleName] || !this.bidiCommands[moduleName][methodName]) {
       throw new errors.UnknownCommandError();
     }
 
-    const {command, params} = BIDI_COMMANDS[moduleName][methodName] as BidiMethodDef;
+    const {command, params} = this.bidiCommands[moduleName][methodName];
     // if the command method isn't part of our spec, also reject
     if (!command) {
       throw new errors.UnknownCommandError();
@@ -477,8 +496,12 @@ export class DriverCore<const C extends Constraints, Settings extends StringReco
       `Executing bidi command '${bidiCmd}' with params ${logParams} by passing to driver ` +
         `method '${command}'`,
     );
-    const res = (await this[command](...args)) ?? null;
-    this.log.debug(`Responding to bidi command '${bidiCmd}' with ${JSON.stringify(res)}`);
-    return res;
+    const response = await this[command](...args);
+    const finalResponse = _.isUndefined(response) ? {} : response;
+    this.log.debug(
+      `Responding to bidi command '${bidiCmd}' with ` +
+      `${_.truncate(JSON.stringify(finalResponse), {length: MAX_LOG_BODY_LENGTH})}`
+    );
+    return finalResponse;
   }
 }

@@ -153,6 +153,20 @@ export class FakeDriver extends BaseDriver {
     return await super.deleteSession(sessionId);
   }
 
+  /**
+   * @returns {Promise<string>}
+   */
+  async getWindowHandle() {
+    return '1';
+  }
+
+  /**
+   * @returns {Promise<string[]>}
+   */
+  async getWindowHandles() {
+    return ['1'];
+  }
+
   get driverData() {
     return {
       isUnique: !!this.caps.uniqueApp,
@@ -221,6 +235,20 @@ export class FakeDriver extends BaseDriver {
     await B.delay(1);
   }
 
+  static newBidiCommands = /** @type {const} */({
+    fake: {
+      getFakeThing: {
+        command: 'getFakeThing',
+      },
+      setFakeThing: {
+        command: 'setFakeThing',
+        params: {
+          required: ['thing'],
+        },
+      },
+    }
+  });
+
   static newMethodMap = /** @type {const} */ ({
     '/session/:sessionId/fakedriver': {
       GET: {command: 'getFakeThing'},
@@ -266,7 +294,7 @@ export class FakeDriver extends BaseDriver {
   }
 
   static async updateServer(expressApp, httpServer, cliArgs) {
-    // eslint-disable-line require-await
+
     expressApp.all('/fakedriver', FakeDriver.fakeRoute);
     expressApp.all('/fakedriverCliArgs', (req, res) => {
       res.send(JSON.stringify(cliArgs));

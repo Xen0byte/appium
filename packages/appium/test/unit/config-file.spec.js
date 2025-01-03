@@ -1,6 +1,7 @@
 // @ts-check
 
 import fs from 'fs';
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 import YAML from 'yaml';
 import * as schema from '../../lib/schema/schema';
@@ -212,14 +213,11 @@ describe('config-file', function () {
           });
 
           describe('when the config file is invalid', function () {
-            beforeEach(function () {
+            beforeEach(async function () {
               lc.search.resolves({
                 config: {foo: 'bar'},
                 filepath: '/path/to/file.json',
               });
-            });
-
-            beforeEach(async function () {
               result = await readConfigFile();
             });
 

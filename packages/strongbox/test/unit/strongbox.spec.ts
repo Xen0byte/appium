@@ -1,7 +1,13 @@
 import path from 'node:path';
 import rewiremock from 'rewiremock/node';
 import type {Strongbox as TStrongbox, StrongboxOpts, Item, Value} from '../../lib';
-import {createSandbox, SinonSandbox, SinonStubbedMember} from 'sinon';
+import {
+  // eslint-disable-next-line import/named
+  createSandbox,
+  SinonSandbox,
+  SinonStubbedMember,
+  SinonStub
+} from 'sinon';
 import type fs from 'node:fs/promises';
 
 type MockFs = {
@@ -165,7 +171,7 @@ describe('Strongbox', function () {
     });
 
     describe('clearAll()', function () {
-      let clear: sinon.SinonStub<never[], Promise<void>>;
+      let clear: SinonStub<never[], Promise<void>>;
 
       beforeEach(async function () {
         const item = await box.createItem<string>('SLUG test');

@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.14.0](https://github.com/appium/appium/compare/@appium/base-driver@9.13.1...@appium/base-driver@9.14.0) (2025-01-02)
+
+
+### Features
+
+* **appium:** Add session.status BiDi command ([#20839](https://github.com/appium/appium/issues/20839)) ([64e768e](https://github.com/appium/appium/commit/64e768efb7bebd6b5a24d55206d1cad00812777c))
+* **appium:** allow drivers to define their own bidi commands ([#20828](https://github.com/appium/appium/issues/20828)) ([a917ec6](https://github.com/appium/appium/commit/a917ec6ceda2166fb3dcbff6b2768f700db9e103))
+
+
+### Bug Fixes
+
+* **base-driver:** Return an empty object if the corresponding API response is undefined ([#20845](https://github.com/appium/appium/issues/20845)) ([c765bc3](https://github.com/appium/appium/commit/c765bc31e03d37ed194fcd52f4e4a2ca1128b260))
+* **base-driver:** update dependency express to v4.21.2 ([#20823](https://github.com/appium/appium/issues/20823)) ([c032352](https://github.com/appium/appium/commit/c032352fade2146cdce5feb0906726ad07a30e4f))
+* Reduce linter warnings ([#20860](https://github.com/appium/appium/issues/20860)) ([65658cc](https://github.com/appium/appium/commit/65658ccbdde9144c45cb5aad6a9089a5d6f3a0a3))
+* **types:** update dependency type-fest to v4 ([#20838](https://github.com/appium/appium/issues/20838)) ([a5897dd](https://github.com/appium/appium/commit/a5897dd25a277a42b0c650a52274ba2c891ac3b0))
+* **types:** update dependency type-fest to v4 ([#20843](https://github.com/appium/appium/issues/20843)) ([7abecad](https://github.com/appium/appium/commit/7abecaddd3ed64c7be321650b2a17990e74a7222))
+* **types:** update dependency type-fest to v4.31.0 ([#20857](https://github.com/appium/appium/issues/20857)) ([24abb38](https://github.com/appium/appium/commit/24abb385e54f57457c4fb3f2b654cb63645e7ccd))
+
+
+
+## [9.13.1](https://github.com/appium/appium/compare/@appium/base-driver@9.13.0...@appium/base-driver@9.13.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **base-driver:** add * always for non-separator for backward compatibility ([#20821](https://github.com/appium/appium/issues/20821)) ([6ea0830](https://github.com/appium/appium/commit/6ea0830319c204097233d0659e21b3447b624431))
+* **base-driver:** update dependency @types/method-override to v3 ([#20799](https://github.com/appium/appium/issues/20799)) ([42ef484](https://github.com/appium/appium/commit/42ef4841f9a379d8e9ce531eb5375eab03902e3f))
+* **support:** update dependency axios to v1.7.9 ([#20811](https://github.com/appium/appium/issues/20811)) ([69f100a](https://github.com/appium/appium/commit/69f100ad3e12030708dee4b8a74005dd41976e37))
+* **types:** update dependency type-fest to v4.30.0 ([#20802](https://github.com/appium/appium/issues/20802)) ([8590432](https://github.com/appium/appium/commit/8590432955eb7663e35847db541b9ead3f845a36))
+
+
+
 ## [9.13.0](https://github.com/appium/appium/compare/@appium/base-driver@9.12.2...@appium/base-driver@9.13.0) (2024-12-02)
 
 

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.47](https://github.com/appium/appium/compare/@appium/plugin-test-support@0.3.46...@appium/plugin-test-support@0.3.47) (2025-01-02)
+
+
+### Bug Fixes
+
+* Reduce linter warnings ([#20860](https://github.com/appium/appium/issues/20860)) ([65658cc](https://github.com/appium/appium/commit/65658ccbdde9144c45cb5aad6a9089a5d6f3a0a3))
+
+
+
+## [0.3.46](https://github.com/appium/appium/compare/@appium/plugin-test-support@0.3.45...@appium/plugin-test-support@0.3.46) (2024-12-05)
+
+
+### Bug Fixes
+
+* **support:** update dependency teen_process to v2.2.2 ([#20808](https://github.com/appium/appium/issues/20808)) ([c91683f](https://github.com/appium/appium/commit/c91683f50feea937ff8568eab6366465a6cf9a3e))
+
+
+
 ## [0.3.45](https://github.com/appium/appium/compare/@appium/plugin-test-support@0.3.44...@appium/plugin-test-support@0.3.45) (2024-12-02)
 
 **Note:** Version bump only for package @appium/plugin-test-support

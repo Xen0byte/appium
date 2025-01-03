@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import B from 'bluebird';
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 
 // wrap these tests in a function so we can export the tests and re-use them
@@ -266,7 +267,7 @@ export function driverUnitTestSuite(
           }
         }
         let results = /** @type {PromiseFulfilledResult<any>[]} */ (
-          // eslint-disable-next-line promise/no-native
+
           await Promise.allSettled(cmds)
         );
         for (let i = 1; i < 5; i++) {
@@ -580,11 +581,9 @@ export function driverUnitTestSuite(
       d = new DriverClass();
     });
 
-    it('should throw an error if feature name is invalid', function () {
+    it('should handled with wild card if feature name is invalid', function () {
       d.allowInsecure = ['foo'];
-      (() => {
-        d.isFeatureEnabled('foo');
-      }).should.throw();
+      d.isFeatureEnabled('foo').should.be.true;
     });
 
     it('should allow global setting for insecurity', function () {

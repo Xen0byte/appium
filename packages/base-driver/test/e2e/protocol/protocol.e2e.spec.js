@@ -1,6 +1,7 @@
 import {server, routeConfiguringFunction, errors, JWProxy, BaseDriver} from '../../../lib';
 import {FakeDriver} from './fake-driver';
 import axios from 'axios';
+// eslint-disable-next-line import/named
 import {createSandbox} from 'sinon';
 import {StatusCodes as HTTPStatusCodes} from 'http-status-codes';
 import {createProxyServer} from './helpers';
@@ -917,7 +918,7 @@ describe('Protocol', function () {
     });
 
     it('should pass on any errors in proxying', async function () {
-      // eslint-disable-next-line require-await
+
       driver.proxyReqRes = async function () {
         throw new Error('foo');
       };
@@ -938,7 +939,7 @@ describe('Protocol', function () {
     });
 
     it('should able to throw ProxyRequestError in proxying', async function () {
-      // eslint-disable-next-line require-await
+
       driver.proxyReqRes = async function () {
         let jsonwp = {
           status: 35,
@@ -961,7 +962,7 @@ describe('Protocol', function () {
     });
 
     it('should let the proxy handle req/res', async function () {
-      // eslint-disable-next-line require-await
+
       driver.proxyReqRes = async function (req, res) {
         res.status(200).json({custom: 'data'});
       };

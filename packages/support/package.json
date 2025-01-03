@@ -1,6 +1,6 @@
 {
   "name": "@appium/support",
-  "version": "5.1.8",
+  "version": "6.0.1",
   "description": "Support libs used across appium packages",
   "keywords": [
     "automation",
@@ -43,7 +43,7 @@
   "dependencies": {
     "@appium/logger": "^1.6.1",
     "@appium/tsconfig": "^0.3.3",
-    "@appium/types": "^0.22.2",
+    "@appium/types": "^0.23.0",
     "@colors/colors": "1.6.0",
     "@types/archiver": "6.0.3",
     "@types/base64-stream": "1.0.5",
@@ -89,7 +89,7 @@
     "source-map-support": "0.5.21",
     "supports-color": "8.1.1",
     "teen_process": "2.2.2",
-    "type-fest": "4.30.0",
+    "type-fest": "4.31.0",
     "uuid": "11.0.3",
     "which": "4.0.0",
     "yauzl": "3.2.0"
